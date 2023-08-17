@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alarme com Som em JS</title>
+</head>
+<body>
+<h1>Alarme com Som</h1>
+<p>Defina a hora do alarme:</p>
+<input type="time" id="alarmTime">
+<button id="setAlarm">Definir Alarme</button>
+
+
+<audio id="alarmSound" preload="auto">
+  <source src="alarm-sound.mp3" type="audio/mpeg">
+  Seu navegador não suporta o elemento de áudio.
+</audio>
+
+<script>
+  // Definindo um evento de clique para o elemento com o id "setAlarm"
+document.getElementById("setAlarm").addEventListener("click", function() {
+  
+  // Declaração de variavel constante chamada alarmTimeInput ligação ao elemento de entrada (input) com o id alarmTime
+  const alarmTimeInput = document.getElementById("alarmTime");
+
+ // Declaração de variavel constante chamada alarmTime recebendo valor de alarmTimeInput
+  const alarmTime = alarmTimeInput.value;
+
+  // Vendo um horario definido
+  if (alarmTime) {
+
+    // Crição do objeto date para marcar tempo atual
+    const now = new Date();
+
+    // Separaçao das horas e minutos em HH:mm
+    const [hours, minutes] = alarmTime.split(":");
+
+    // Criação do objeto date com horario e data atual com a horas e minutos do despertador
+    const alarmDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+
+    // Medindo o tempo até o horario do alarme em milissegundos
+    const timeUntilAlarm = alarmDate - now;
+
+    // Verificação se o foi ultrapassado
+    if (timeUntilAlarm <= 0) {
+
+      // Exibindo aleta caso o horario tenha passado
+      alert("Hora do alarme passou!");
+    } else {
+      // Configurando um temporizador para tocar o som do alarme e mostrar um alerta
+      setTimeout(() => {
+        playAlarmSound();
+        alert("Hora do alarme chegou!");
+      }, timeUntilAlarm);
+    }
+  }
+});
+
+// Função para produzir som
+function playAlarmSound() {
+
+  // Obtendo a referência ao elemento de áudio com o id alarmSound
+  const alarmSound = document.getElementById("alarmSound");
+  
+  // Exibindo som
+  alarmSound.play();
+}
+
+</script>
+</body>
+</html>
